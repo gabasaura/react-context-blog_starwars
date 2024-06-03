@@ -1,28 +1,22 @@
-import CharacterCard from "./components/cardCharacter"
-import Navbar from "./components/navbar"
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './pages/home';
+import PersonProfile from './pages/people';
+import Navbar from './components/navbar';
+import Footer from './components/footer';
 
-function App() {
-
+const App = () => {
   return (
-    <>
-      <Navbar />
-      <main>
-        <div className="py-5 bg-body-tertiary">
-          <div className="container pt-5">
+      <Router>
+          <Navbar />
+          <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/people" element={<PersonProfile />} />
+          </Routes>
+          <Footer />
+      </Router>
+  );
+};
 
-            {/* SECTIONS */}
-
-            <section className="album h-25 overflow-x-auto pt-5">
-              <h3>CHARACTERS</h3>
-              <div className="grid d-flex"></div>
-              <CharacterCard />
-            </section>
-
-          </div>
-        </div>
-      </main>
-    </>
-  )
-}
-
-export default App
+export default App;

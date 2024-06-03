@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaHeart } from "react-icons/fa";
+
 
 const Navbar = () => {
     return (
@@ -30,7 +32,9 @@ const Navbar = () => {
                                 data-bs-toggle="dropdown" 
                                 aria-expanded="false"
                             >
-                                FAVORITOS
+                                FAVORITOS 
+                                <FaHeart />
+
                             </a>
                             <ul className="dropdown-menu">
                                 <li><a className="dropdown-item" href="#">Action</a></li>
