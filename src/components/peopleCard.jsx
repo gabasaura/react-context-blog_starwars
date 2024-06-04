@@ -1,8 +1,23 @@
-import { FaHeart } from "react-icons/fa";
+import React, { useContext } from "react";
+import { AppContext } from '../store/AppContext';
+import { FaHeart, FaEye } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
-const PeopleCard = ({ data, favorite }) => {
+const PeopleCard = ({ data }) => {
+    const { store, actions } = useContext(AppContext);
+    const person = store.person;
+    const isFavorite = store.favorites.some(fav => fav.uid === data.uid);
+
+    const handleFavoriteToggle = () => {
+        if (isFavorite) {
+            actions.removeFromFavorites(data);
+        } else {
+            actions.addToFavorites(data);
+        }
+    };
+
     return (
-        <div className="card col-3 me-3 shadow-sm">
+        <div className="card border-0 col-3 me-3 shadow-sm">
             <svg
                 className="warning-placeholder-img card-img-top"
                 width="100%"
@@ -17,21 +32,19 @@ const PeopleCard = ({ data, favorite }) => {
                 <rect width="100%" height="100%" fill="#000000" />
             </svg>
             <div className="card-body">
-                <h4>{data.name}</h4>
-                <p className="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
-                </p>
-                <div className="d-flex justify-content-between align-items-center">
+                <h3 className="text-warning">{data.name}</h3>
+                <div><small>Birth Date: {person.birth_year}</small></div>
+                <div><small>Eyes Color: {person.eye_color}</small></div>
+                <div><small>Gender: {person.gender}</small></div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
                     <div className="btn-group">
-                        <button type="button" className="btn btn-sm btn-outline-secondary">
-                            {data.url}
-                        </button>
-                        <button type="button" className="btn btn-sm btn-outline-secondary">
-                            Save
+                        <Link to={`/people/${data.uid}`} className="btn btn-sm btn-outline-warning">
+                            <FaEye />
+                        </Link>
+                        <button type="button" className="btn btn-sm btn-outline-warning" onClick={handleFavoriteToggle}>
+                            <FaHeart color={isFavorite ? "white" : ""} />
                         </button>
                     </div>
-                    <small className="text-body-secondary"><FaHeart/></small>
                 </div>
             </div>
         </div>

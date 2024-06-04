@@ -4,20 +4,47 @@ import getState from './flux';
 export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
-    const [state, setState] = useState(() => {
-        const { store, actions } = getState({
-            getStore: () => state.store,
-            getActions: () => state.actions,
-            setStore: (updatedStore) => setState({
-                store: { ...state.store, ...updatedStore },
-                actions: { ...state.actions }
-            })
-        });
-        return { store, actions };
+    const initialState = getState({
+        getStore: () => state.store,
+        getActions: () => state.actions,
+        setStore: (updatedStore) => setState((prevState) => ({
+            store: { ...prevState.store, ...updatedStore },
+            actions: { ...prevState.actions }
+        }))
+    });
+
+    const [state, setState] = useState({
+        store: {
+            ...initialState.store,
+            favorites: [] // Initialize favorites array
+        },
+        actions: {
+            ...initialState.actions,
+            addToFavorites: (item) => {
+                setState(prevState => ({
+                    ...prevState,
+                    store: {
+                        ...prevState.store,
+                        favorites: [...prevState.store.favorites, item]
+                    }
+                }));
+            },
+            removeFromFavorites: (item) => {
+                setState(prevState => ({
+                    ...prevState,
+                    store: {
+                        ...prevState.store,
+                        favorites: prevState.store.favorites.filter(fav => fav.uid !== item.uid)
+                    }
+                }));
+            }
+        }
     });
 
     useEffect(() => {
         state.actions.fetchPeople();
+        state.actions.fetchPlanets();
+        state.actions.fetchVehicles();
     }, []);
 
     return (

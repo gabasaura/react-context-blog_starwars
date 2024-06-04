@@ -1,17 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AppContext } from '../store/AppContext';
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
 import PeopleCard from "../components/peopleCard";
+import PlanetsCard from "../components/planetsCard";
+import VehiclesCard from "../components/VehiclesCard";
 
 function Home() {
-    const { store, actions } = useContext(AppContext);
+    const { store } = useContext(AppContext);
 
 
-    useEffect(() => {
-        actions.fetchPeople(); 
-    }, []);
-    
 
     return (
             <main>
@@ -19,11 +15,33 @@ function Home() {
                     <div className="container pt-5">
 
                         <section className="album h-25 overflow-x-auto pt-5">
-                            <h3>CHARACTERS</h3>
+                            <h3>PEOPLE</h3>
                                 <div className="grid d-flex">
 
                                     {store.people.map(person => (
                                         <PeopleCard key={person.uid} data={person} />
+                                    ))}
+
+                                </div>
+                        </section>
+
+                        <section className="album h-25 overflow-x-auto pt-5">
+                            <h3>PLANETS</h3>
+                                <div className="grid d-flex">
+
+                                    {store.planets.map(planet => (
+                                        <PlanetsCard key={planet.uid} data={planet} />
+                                    ))}
+
+                                </div>
+                        </section>
+
+                        <section className="album h-25 overflow-x-auto pt-5">
+                            <h3>VEHICLES</h3>
+                                <div className="grid d-flex">
+
+                                    {store.vehicles.map(vehicle => (
+                                        <VehiclesCard key={vehicle.uid} data={vehicle} />
                                     ))}
 
                                 </div>

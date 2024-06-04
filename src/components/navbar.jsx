@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaHeart } from "react-icons/fa";
-
+import { Link } from 'react-router-dom';
+import { AppContext } from '../store/AppContext';
 
 const Navbar = () => {
+    const { store } = useContext(AppContext);
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top px-5">
             <div className="container-fluid px-5">
-                <a className="navbar-brand pe-5" href="#">STAR WARS</a>
+                <Link className="navbar-brand pe-5" to="/">STAR WARS</Link>
                 <button 
                     className="navbar-toggler" 
                     type="button" 
@@ -20,28 +23,26 @@ const Navbar = () => {
                 </button>
                 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">VOLVER</a>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <a 
+                    <div className="navbar-nav me-auto mb-lg-0">
+                        
+                            <button
                                 className="nav-link dropdown-toggle" 
-                                href="#" 
-                                role="button" 
+                                type="button" 
                                 data-bs-toggle="dropdown" 
                                 aria-expanded="false"
                             >
-                                FAVORITOS 
-                                <FaHeart />
-
-                            </a>
+                                FAVORITES <FaHeart className='ms-2 mb-1'/>
+                            </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
+                                {store.favorites.map(favorite => (
+                                    <li key={favorite.uid}>
+                                        <Link className="dropdown-item" to={`/people/${favorite.uid}`}>
+                                            {favorite.name}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
-                        </li>
-                    </ul>
+                    </div>
                     <form className="d-flex" role="search">
                         <input 
                             className="form-control me-2" 
