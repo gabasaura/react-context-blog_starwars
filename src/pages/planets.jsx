@@ -1,28 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams } from 'react-router-dom';
 import { AppContext } from "../store/AppContext";
 import Loading from "../components/loader";
-import PersonInfo from "../components/infoPerson";
+import PlanetInfo from "../components/infoPlanet";
 
-const PeopleProfile = () => {
+const PlanetProfile = () => {
     const { store, actions } = useContext(AppContext);
     const { uid } = useParams();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const fetchData = async () => {
-          await actions.fetchPerson(uid);
-          setLoading(false);
-      };
+        const fetchData = async () => {
+            await actions.fetchPlanet(uid);
+            setLoading(false);
+        };
 
-      fetchData();
-  }, [uid]);
+        fetchData();
+    }, []);
 
-  if (loading) {
-      return <Loading />
-  }
+    if (loading) {
+        return <Loading />
+    }
 
-  const person = store.person;
+    const planet = store.planet;
 
     return (
         <main>
@@ -30,7 +30,7 @@ const PeopleProfile = () => {
                 <div className="container pt-5">
                     <section className="h-50 pt-5">
                         {store.person ? (
-                            <PersonInfo person={store.person} />
+                            <PlanetInfo planet={store.planet} />
                         ) : (
                             <p>No data available</p>
                         )}
@@ -38,7 +38,8 @@ const PeopleProfile = () => {
                 </div>
             </div>
         </main>
+       
     );
 };
 
-export default PeopleProfile;
+export default PlanetProfile;

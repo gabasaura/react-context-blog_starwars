@@ -4,3 +4,7 @@
 .container{
     min-height: 80vh;
 }
+.move-top{
+    vertical-align: top;
+    margin: 0 5px;
+}

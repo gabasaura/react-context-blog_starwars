@@ -20,21 +20,68 @@ const AppContextProvider = ({ children }) => {
         },
         actions: {
             ...initialState.actions,
-            addToFavorites: (item) => {
+            addToFavorites: (data, dataType) => {
+                const favoriteItem = {
+                    name: data.name,
+                    uid: `${dataType}-${data.uid}`,
+                    route: `/${dataType}/${data.uid}`
+                };
                 setState(prevState => ({
                     ...prevState,
                     store: {
                         ...prevState.store,
-                        favorites: [...prevState.store.favorites, item]
+                        favorites: [...prevState.store.favorites, favoriteItem]
                     }
                 }));
             },
-            removeFromFavorites: (item) => {
+            removeFromFavorites: (data) => {
                 setState(prevState => ({
                     ...prevState,
                     store: {
                         ...prevState.store,
-                        favorites: prevState.store.favorites.filter(fav => fav.uid !== item.uid)
+                        favorites: prevState.store.favorites.filter(fav => {
+                            // Check the prefix to determine the type of data
+                            const prefix = fav.uid.split('-')[0];
+                            switch (prefix) {
+                                case 'people':
+                                    return fav.uid !== `people-${data.uid}`;
+                                case 'planets':
+                                    return fav.uid !== `planets-${data.uid}`;
+                                case 'vehicles':
+                                    return fav.uid !== `vehicles-${data.uid}`;
+                                default:
+                                    return true; // Preserve datas with unrecognized prefixes
+                            }
+                        })
+                    }
+                }));
+            },
+            removeFromFavoritesByRoute: (route) => {
+                const parts = route.split('/');
+                const dataType = parts[1];
+
+                let updatedFavorites;
+
+                switch (dataType) {
+                    case 'people':
+                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
+                        break;
+                    case 'planets':
+                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
+                        break;
+                    case 'vehicles':
+                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
+                        break;
+                    default:
+                        updatedFavorites = state.store.favorites;
+                        break;
+                }
+
+                setState(prevState => ({
+                    ...prevState,
+                    store: {
+                        ...prevState.store,
+                        favorites: updatedFavorites
                     }
                 }));
             }
@@ -47,8 +94,10 @@ const AppContextProvider = ({ children }) => {
         state.actions.fetchVehicles();
     }, []);
 
+    const favoriteCount = state.store.favorites.length; // Calculate favorite count
+
     return (
-        <AppContext.Provider value={state}>
+        <AppContext.Provider value={{ ...state, favoriteCount }}>
             {children}
         </AppContext.Provider>
     );

@@ -1,12 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from '../store/AppContext';
 import PeopleCard from "../components/peopleCard";
-import PlanetsCard from "../components/planetsCard";
-import VehiclesCard from "../components/VehiclesCard";
+import VehicleCard from "../components/vehiclesCard";
+import PlanetCard from "../components/planetsCard";
+import Loading from "../components/loader";
 
 function Home() {
     const { store } = useContext(AppContext);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        if (store.people.length > 0 && store.planets.length > 0 && store.vehicles.length > 0) {
+            setLoading(false);
+        }
+    }, [store.people, store.planets, store.vehicles]);
+
+    if (loading) {
+        return <Loading />
+    }
 
 
     return (
@@ -30,7 +41,7 @@ function Home() {
                                 <div className="grid d-flex">
 
                                     {store.planets.map(planet => (
-                                        <PlanetsCard key={planet.uid} data={planet} />
+                                        <PlanetCard key={planet.uid} data={planet} />
                                     ))}
 
                                 </div>
@@ -41,7 +52,7 @@ function Home() {
                                 <div className="grid d-flex">
 
                                     {store.vehicles.map(vehicle => (
-                                        <VehiclesCard key={vehicle.uid} data={vehicle} />
+                                        <VehicleCard key={vehicle.uid} data={vehicle} />
                                     ))}
 
                                 </div>
