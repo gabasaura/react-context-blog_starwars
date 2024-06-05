@@ -56,35 +56,15 @@ const AppContextProvider = ({ children }) => {
                     }
                 }));
             },
-            removeFromFavoritesByRoute: (route) => {
-                const parts = route.split('/');
-                const dataType = parts[1];
-
-                let updatedFavorites;
-
-                switch (dataType) {
-                    case 'people':
-                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
-                        break;
-                    case 'planets':
-                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
-                        break;
-                    case 'vehicles':
-                        updatedFavorites = state.store.favorites.filter(fav => fav.route !== route);
-                        break;
-                    default:
-                        updatedFavorites = state.store.favorites;
-                        break;
-                }
-
+            removeFromFavoritesNavbar: (data) => {
                 setState(prevState => ({
                     ...prevState,
                     store: {
                         ...prevState.store,
-                        favorites: updatedFavorites
+                        favorites: prevState.store.favorites.filter(fav => fav !== data)
                     }
                 }));
-            }
+            },
         }
     });
 

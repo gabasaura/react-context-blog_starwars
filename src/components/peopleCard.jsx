@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AppContext } from '../store/AppContext';
 import { FaHeart, FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import PropPeople from "./propHomePerson";
 
 const PeopleCard = ({ data }) => {
     const { store, actions } = useContext(AppContext);
@@ -36,8 +37,7 @@ const PeopleCard = ({ data }) => {
             </svg>
             <div className="card-body">
                 <h3 className="text-warning">{person.name}</h3>
-                <h3 className="text-warning">{person.birth_year}</h3>
-                
+                <PropPeople uid={data.uid} />
                 <div className="d-flex justify-content-center align-items-center mt-3">
                     <div className="btn-group pt-1">
                     <Link to={`/people/${data.uid}`} className="btn btn-sm px-5 btn-outline-warning">

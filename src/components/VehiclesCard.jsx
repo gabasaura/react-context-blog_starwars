@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AppContext } from '../store/AppContext';
 import { FaHeart, FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import PropVehicle from "./propHomeVehicle";
 
 const VehiclesCard = ({ data }) => {
     const { store, actions } = useContext(AppContext);
@@ -40,9 +41,7 @@ const VehiclesCard = ({ data }) => {
             </svg>
             <div className="card-body">
                 <h3 className="text-warning">{data.name}</h3>
-                <div><small>Birth Date: {vehicle.birth_year}</small></div>
-                <div><small>Eyes Color: {vehicle.eye_color}</small></div>
-                <div><small>Gender: {vehicle.gender}</small></div>
+                <PropVehicle uid={data.uid} />
                 <div className="d-flex justify-content-center align-items-center mt-3">
                     <div className="btn-group pt-1">
                         <Link to={`/vehicles/${data.uid}`} className="btn btn-sm px-5 btn-outline-warning">

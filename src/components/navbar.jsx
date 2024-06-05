@@ -43,7 +43,7 @@ const Navbar = () => {
                                     store.favorites.map(favorite => (
                                         <li className="dropdown-item" key={favorite.uid}>
                                             <span>
-                                                <button className='btn p-0' onClick={() => actions.removeFromFavorites(favorite)}>
+                                                <button className='btn p-0' onClick={() => actions.removeFromFavoritesNavbar(favorite)}>
                                                     <FaTrash className='me-2' />
                                                 </button>
                                                 {console.log('Favorite:', favorite)}
